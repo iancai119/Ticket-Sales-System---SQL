@@ -1,0 +1,73 @@
+<html>
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>NBA Ticket Sales Dashboard</title>
+
+    <script src="https://code.jquery.com/jquery-3.7.1.min.js"></script>
+    <link rel="stylesheet" type="text/css" href="https://cdn.datatables.net/1.13.7/css/jquery.dataTables.min.css">
+    <script type="text/javascript" src="https://cdn.datatables.net/1.13.7/js/jquery.dataTables.min.js"></script>
+    
+    <script>
+        var mockData = [
+            {"ticket_id": 5001, "game_id": 101, "fan_id": 1, "tier_code": "VIP", "section_row": "Row 1", "seat_number": 12, "purchase_price": 2500.00},
+            {"ticket_id": 5002, "game_id": 101, "fan_id": 5, "tier_code": "LWR", "section_row": "Row A", "seat_number": 101, "purchase_price": 450.00},
+            {"ticket_id": 5003, "game_id": 101, "fan_id": 3, "tier_code": "UPR", "section_row": "Row 20", "seat_number": 15, "purchase_price": 85.50},
+            {"ticket_id": 5004, "game_id": 102, "fan_id": 2, "tier_code": "LWR", "section_row": "Row F", "seat_number": 44, "purchase_price": 320.00},
+            {"ticket_id": 5005, "game_id": 102, "fan_id": 2, "tier_code": "LWR", "section_row": "Row F", "seat_number": 45, "purchase_price": 320.00},
+            {"ticket_id": 5006, "game_id": 102, "fan_id": 6, "tier_code": "UPR", "section_row": "Row 5", "seat_number": 10, "purchase_price": 60.00},
+            {"ticket_id": 5007, "game_id": 103, "fan_id": 3, "tier_code": "BOX", "section_row": "Suite 1", "seat_number": 1, "purchase_price": 5000.00},
+            {"ticket_id": 5008, "game_id": 103, "fan_id": 4, "tier_code": "UPR", "section_row": "Row 30", "seat_number": 22, "purchase_price": 55.00},
+            {"ticket_id": 5009, "game_id": 104, "fan_id": 6, "tier_code": "LWR", "section_row": "Row B", "seat_number": 12, "purchase_price": 210.00},
+            {"ticket_id": 5010, "game_id": 104, "fan_id": 1, "tier_code": "VIP", "section_row": "Row 1", "seat_number": 5, "purchase_price": 1800.00}
+        ];
+
+        $(document).ready(function () {
+            // Calculate total tickets sold
+            var count = mockData.length;
+            // Calculate total revenue
+            var totalRevenue = mockData.reduce((sum, item) => sum + item.purchase_price, 0);
+            
+            // Format the total revenue as USD currency
+            var formatter = new Intl.NumberFormat('en-US', {
+                style: 'currency',
+                currency: 'USD',
+            });
+
+            $('#analytic-datapoint').html(
+                'Total Tickets Sold: ' + count + 
+                ' <span style="margin-left:20px">Total Revenue: ' + formatter.format(totalRevenue) + '</span>'
+            );
+
+            $('#mainTable').DataTable({
+                data: mockData, 
+                columns: [
+                    { data: 'ticket_id', title: 'Ticket ID' },
+                    { data: 'game_id', title: 'Game ID' },
+                    { data: 'fan_id', title: 'Fan ID' },
+                    { data: 'tier_code', title: 'Seat Tier' },
+                    { data: 'section_row', title: 'Row' },
+                    { data: 'seat_number', title: 'Seat Num' },
+                    { 
+                        data: 'purchase_price', 
+                        title: 'Price ($)',
+                        render: $.fn.dataTable.render.number(',', '.', 2, '$') // Format the purchase price as USD currency
+                    }
+                ],
+                "pagingType": "full_numbers",
+                "pageLength": 10,
+                "columnDefs": [{"className": "dt-center", "targets": "_all"}]
+            });
+        });
+    </script>
+</head>
+<body style="font-family: Arial, sans-serif; background-color: #f4f4f9;">
+    <h1 style="text-align:center; color: #333;">NBA Ticket Sales Management System</h1>
+    <h2 style="text-align:center; color:#0056b3; font-size: 1.2em;">
+        <div id="analytic-datapoint">Loading metrics...</div>
+    </h2>
+    <div style="width:80%; margin: 20px auto; background: white; padding: 20px; box-shadow: 0 0 10px rgba(0,0,0,0.1);">
+        <table id="mainTable" class="display" style="width:100%"></table>
+    </div>
+</body>
+</html>
