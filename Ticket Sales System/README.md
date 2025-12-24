@@ -1,4 +1,4 @@
-# Ticket Sales Management System
+# Ticket Sales System
 
 ## Project Overview
 This project simulates a backend database and a frontend dashboard for an NBA ticketing system. It demonstrates database design (normalization), SQL implementation, and data visualization using a web interface.
@@ -23,4 +23,5 @@ The project includes analytical queries to solve business problems, such as:
 
 ## How to Run
 1.  **Database:** Run `database/schema_and_data.sql` in any Oracle SQL environment (SQL Developer, SQLPlus) to build the schema and populate data.
+
 2.  **Dashboard:** Open `web/index.html` in any web browser. (Note: The live demo uses mock data for portability).
